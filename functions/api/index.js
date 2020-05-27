@@ -5,7 +5,6 @@ const cors = require('cors')
 app.use(cors())
 
 app.get('/lookup/:url', (req, res) => {
-  console.log(req.params.url)
   if (req.params.url.includes('err')) {
     res.status(404).json({
       results: [],
@@ -27,3 +26,7 @@ app.get('/', (req, res) => {
 })
 
 module.exports = app
+
+if (require.main === module) {
+  app.listen(3001)
+}
