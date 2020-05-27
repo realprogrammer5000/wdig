@@ -1,3 +1,4 @@
+// noinspection NpmUsedModulesInstalled
 import colors from 'vuetify/es5/util/colors'
 
 export default {
@@ -40,7 +41,7 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify',
+    '@nuxtjs/vuetify'
   ],
   /*
   ** Nuxt.js modules
