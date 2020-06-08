@@ -24,7 +24,7 @@
           <v-btn
             color="primary"
             nuxt
-            to="/inspire"
+            to="/url/https%3A%2F%2Fv.ht%2Frickroll"
           >
             Continue
           </v-btn>
