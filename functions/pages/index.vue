@@ -4,29 +4,29 @@
     justify-center
     align-center
   >
-    <v-flex
-      xs12
-      sm8
-      md6
+    <v-text-field v-model="url" label="URL to search" />
+    <v-btn
+      color="primary"
+      nuxt
+      :to="linkUrl"
     >
-      <v-card>
-        <v-card-title class="headline">
-          Test
-        </v-card-title>
-        <v-card-text>
-          Test
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/url/https%3A%2F%2Fv.ht%2Frickroll"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
+      Continue
+    </v-btn>
   </v-layout>
 </template>
+<script>
+export default {
+  data: () => ({
+    url: ''
+  }),
+  computed: {
+    linkUrl () {
+      return `/url/${encodeURIComponent(this.url)}`
+    }
+  }
+}
+
+</script>
+<style lang="scss">
+  v-spacer{ display: none}
+</style>
