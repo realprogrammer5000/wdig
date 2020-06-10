@@ -1,8 +1,8 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
 const fs = require('fs')
 const path = require('path')
+const cors = require('cors')
+const express = require('express')
+const app = express()
 const puppeteer = require('puppeteer')
 const lookup = require('safe-browse-url-lookup')({ apiKey: fs.readFileSync(path.join(__dirname, 'apikey')).toString().trim() })
 
@@ -21,10 +21,10 @@ const analyseUrl = async (rawUrl) => {
   const url = new URL(rawUrl)
   let hostname = url.hostname
   if (hostname.endsWith('.')) { hostname = hostname.slice(0, -1) }
-  if (hostname.endsWith('.latlmes.com') || hostname === 'latlmes.com') { results.push({ type: 'rickroll' }) }
+  if (hostname.endsWith('.latlmes.com') || hostname === 'latlmes.com') { results.push('rickroll') }
   if (url.hostname.endsWith('.youtube.com') && url.pathname.startsWith('/watch')) {
     const video = url.searchParams.get('v')
-    if ('dQw4w9WgXcQ,j5a0jTc9S10,dPmZqsQNzGA,EE-xtCF3T94,V-_O7nl0Ii0,xfr64zoBTAQ,Uj1ykZWtPYI,ID_L0aGI9bg,REWyCy_m39Q,nHRbZW097Uk,nQGsT44rVjk,VSa2IqDwnQ8,kJmKBhYsJho,Dh-CW22axyY,0EY98EsPXs8,-lmhJOhQHWc,3KANI2dpXLw,06pBzAlItwI,cH1NLToRz_o,gidHrKbTpog,0Z0i-nimHkU,OYpwAtnywTk,fZi4JxbTwPo,BXuxOeg6PiQ,6RyOsIseJbk,klqi_h9FElc,ObUZAcLgDn8,Eg7XtrH0duI,iQAAZX1gxvo,y6120QOlsfU,0SoNH07Slj0,cqF6M25kqq4,s99hC5WUwjo,lHyeAtiiL18,fMnIpIMuBJI,vkbQmH5MPME,QdNEtVH9bZE,PibwQR9nRus,d4N5LnsNpF0,DIs7dtlMCP0,Q53-mWHvxJo,cAN30xJp2Cs,_sWG4uhLiWo,KXPP2XDYpjQ,8O_ifyIIrN4,SWejvNI7WlM,N3MKlU5_Gs0,kczWpSN6emg,JU7jgF_dktI'.split(',').includes(video)) { results.push({ type: 'rickroll' }) }
+    if ('dQw4w9WgXcQ,j5a0jTc9S10,dPmZqsQNzGA,EE-xtCF3T94,V-_O7nl0Ii0,xfr64zoBTAQ,Uj1ykZWtPYI,ID_L0aGI9bg,REWyCy_m39Q,nHRbZW097Uk,nQGsT44rVjk,VSa2IqDwnQ8,kJmKBhYsJho,Dh-CW22axyY,0EY98EsPXs8,-lmhJOhQHWc,3KANI2dpXLw,06pBzAlItwI,cH1NLToRz_o,gidHrKbTpog,0Z0i-nimHkU,OYpwAtnywTk,fZi4JxbTwPo,BXuxOeg6PiQ,6RyOsIseJbk,klqi_h9FElc,ObUZAcLgDn8,Eg7XtrH0duI,iQAAZX1gxvo,y6120QOlsfU,0SoNH07Slj0,cqF6M25kqq4,s99hC5WUwjo,lHyeAtiiL18,fMnIpIMuBJI,vkbQmH5MPME,QdNEtVH9bZE,PibwQR9nRus,d4N5LnsNpF0,DIs7dtlMCP0,Q53-mWHvxJo,cAN30xJp2Cs,_sWG4uhLiWo,KXPP2XDYpjQ,8O_ifyIIrN4,SWejvNI7WlM,N3MKlU5_Gs0,kczWpSN6emg,JU7jgF_dktI'.split(',').includes(video)) { results.push('rickroll') }
   }
 
   try {
@@ -71,11 +71,10 @@ app.get('/lookup/:url', async (req, res) => {
   res.status(200).setHeader('Content-Type', 'application/json')
 
   page.on('load', () => {
-    if (!hasFinished) {
-      const url = page.url()
-      // if (originalUrl !== url) {
+    const url = page.url()
+    if (originalUrl !== url) {
+    // if (!hasFinished) {
       res.write(JSON.stringify({ type: 'redirect', to: url }) + '\n')
-      // }
       console.log('url', url)
     }
   })
