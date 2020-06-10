@@ -9,9 +9,6 @@
       sm8
       md6
     >
-      <div class="text-center">
-        <logo />
-      </div>
       <v-card>
         <v-card-title class="headline">
           Test
@@ -33,13 +30,3 @@
     </v-flex>
   </v-layout>
 </template>
-
-<script>
-import Logo from '~/components/Logo.vue'
-
-export default {
-  components: {
-    Logo
-  }
-}
-</script>
