@@ -1,14 +1,33 @@
 <template>
   <div>
-    <div>{{ this.$route.params.id }} {{ results }}</div>
+    <h1>WDIG Lookup</h1>
+    <a :href="this.$route.params.id">{{ this.$route.params.id }}</a>
+    <div v-if="$fetchState.pending">
+      <v-skeleton-loader class="card-placeholder" type="image" />
+      <!--      <v-skeleton-loader type="text"></v-skeleton-loader>-->
+      <v-skeleton-loader class="card-placeholder" type="image" />
+    </div>
     <!-- eslint-disable-next-line vue/require-v-for-key   -->
-    <div v-for="result in results">
-      {{ result.type }}
+    <div v-for="result in results" v-else class="result">
+      <redirect v-if="result.type === 'redirect'" :to="result.to" />
+      <analysis v-for="analysis in result.analysis" v-else-if="result.type === 'analysis'" :key="analysis" :analysis="analysis" />
+      <screenshot v-else-if="result.type === 'screenshot'" :image-url="result.dataUri" :page-url="result.url" />
     </div>
   </div>
 </template>
-
+<style lang="scss">
+  .card-placeholder {
+    height: 102px;
+  }
+  .result, .card-placeholder {
+    margin: 1em auto;
+  }
+</style>
 <script>
+import Redirect from '~/components/Redirect.vue'
+import Analysis from '~/components/Analysis.vue'
+import Screenshot from '~/components/Screenshot.vue'
+
 // adapted from example 2 of https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamDefaultReader/read
 async function* readBodyLineByLine (body) {
   const utf8Decoder = new TextDecoder('utf-8')
@@ -41,32 +60,32 @@ async function* readBodyLineByLine (body) {
 }
 
 export default {
-  async asyncData ({ params, error, env, req }) {
-    console.log(`${env.apiUrl}/lookup/${encodeURIComponent(params.id)}`)
+  components: {
+    Redirect,
+    Analysis,
+    Screenshot
+  },
+  async fetch () {
+    const { context: { params, error, env } } = this.$nuxt
     const url = new URL(decodeURIComponent(params.id))
     if (!url.href.startsWith('http://') && !url.href.startsWith('https://')) { throw new Error('Invalid protocol') }
     const apiReq = await fetch(`${env.apiUrl}/lookup/${encodeURIComponent(params.id)}`)
     if (!apiReq.ok) { return error({ statusCode: apiReq.status, message: 'An error occured' }) }
 
     if (process.client) {
-      const results = []
-      const apiReq = await fetch(`${$nuxt.context.env.apiUrl}/lookup/${encodeURIComponent($nuxt.context.params.id)}`)
-
-      if (!apiReq.ok) {
-        return $nuxt.error({ statusCode: apiReq.status, message: 'An error occured' })
-      }
-
-      for await (const line of readBodyLineByLine(apiReq.body)) {
-        results.push(JSON.parse(line))
-      }
-      return { results }
+      (async () => {
+        for await (const line of readBodyLineByLine(apiReq.body)) {
+          this.results.push(JSON.parse(line))
+        }
+      })()
     } else {
       // each result is a JSON object delimited by a newline
       const responseLines = await apiReq.text()
-      return {
-        results: responseLines.split('\n').map(line => JSON.parse(line))
-      }
+      this.results = responseLines.split('\n').map(line => JSON.parse(line))
     }
-  }
+  },
+  data: () => ({
+    results: []
+  })
 }
 </script>
