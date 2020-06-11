@@ -86,10 +86,18 @@
     </v-footer>
   </v-app>
 </template>
-<style>
-/*noinspection CssUnusedSymbol*/
+<style scoped lang="scss">
+@import '~assets/slide-underline.scss';
+
+$duration: .2s;
+$distance: 8px;
+$easeOutBack: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+
+  /*noinspection CssUnusedSymbol*/
 #app .nuxt-link-active{
+  @include slide-underline;
   color: #FFFFFF;
+  text-decoration: none;
 }
 </style>
 <script>
