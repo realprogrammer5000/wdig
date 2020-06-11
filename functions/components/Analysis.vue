@@ -9,6 +9,7 @@
   </v-card>
 </template>
 <script>
+// noinspection JSUnusedGlobalSymbols
 export default {
   props: {
     analysis: {

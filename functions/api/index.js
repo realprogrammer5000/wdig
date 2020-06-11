@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const fs = require('fs')
 const path = require('path')
 const cors = require('cors')
@@ -39,7 +40,6 @@ const analyseUrl = async (rawUrl) => {
 app.get('/lookup/', async (req, res) => {
   const errors = []
   let page
-  let hasFinished = false
   try {
     if (!browser) {
       browser = await puppeteer.launch({
@@ -98,7 +98,6 @@ app.get('/lookup/', async (req, res) => {
 
   await sleep(1500)
 
-  hasFinished = true
   const finalUrl = await page.url()
   res.write(JSON.stringify({ type: 'analysis', analysis: await analyseUrl(finalUrl) }) + '\n')
   if (page.url().startsWith('chrome-error://')) {

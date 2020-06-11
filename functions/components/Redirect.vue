@@ -8,6 +8,7 @@
 
 </style>
 <script>
+// noinspection JSUnusedGlobalSymbols
 export default {
   props: {
     to: {

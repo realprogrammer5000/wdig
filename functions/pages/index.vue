@@ -1,5 +1,6 @@
 <template>
   <v-form ref="form" @submit.prevent="submit">
+    <!--suppress HtmlUnknownBooleanAttribute -->
     <v-layout
       column
       justify-center
@@ -52,10 +53,10 @@ export default {
         return 'Invalid URL'
       }
     }
-  }
+  },
+  head: () => ({
+    title: 'Where Does It Go?',
+    titleTemplate: null
+  })
 }
-
 </script>
-<style lang="scss">
-  v-spacer{ display: none}
-</style>
