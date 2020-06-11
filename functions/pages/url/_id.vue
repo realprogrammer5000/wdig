@@ -69,8 +69,8 @@ export default {
     const { context: { params, error, env } } = this.$nuxt
     const url = new URL(decodeURIComponent(params.id))
     if (!url.href.startsWith('http://') && !url.href.startsWith('https://')) { throw new Error('Invalid protocol') }
-    const apiReq = await fetch(`${env.apiUrl}/lookup/${encodeURIComponent(params.id)}`)
-    if (!apiReq.ok) { return error({ statusCode: apiReq.status, message: 'An error occured' }) }
+    const apiReq = await fetch(`${env.apiUrl}/lookup/?url=${encodeURIComponent(params.id)}`)
+    if (!apiReq.ok) { return error({ statusCode: apiReq.status, message: 'An error occurred' }) }
 
     if (process.client) {
       (async () => {
