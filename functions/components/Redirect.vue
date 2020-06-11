@@ -4,9 +4,6 @@
     <v-card-text>This page redirects to <a :href="to">{{ to }}</a></v-card-text>
   </v-card>
 </template>
-<style>
-
-</style>
 <script>
 // noinspection JSUnusedGlobalSymbols
 export default {

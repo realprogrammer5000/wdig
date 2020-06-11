@@ -15,7 +15,7 @@
     </div>
   </div>
 </template>
-<style lang="scss">
+<style scoped lang="scss">
   .card-placeholder {
     height: 102px;
   }
@@ -67,7 +67,9 @@ export default {
   },
   async fetch () {
     const { context: { params, error, env } } = this.$nuxt
-    const url = new URL(decodeURIComponent(params.id))
+    const decodedUrl = decodeURIComponent(params.id)
+    const url = new URL(decodedUrl)
+    this.url = decodedUrl
     if (!url.href.startsWith('http://') && !url.href.startsWith('https://')) { throw new Error('Invalid protocol') }
     const apiReq = await fetch(`${env.apiUrl}/lookup/?url=${encodeURIComponent(params.id)}`)
     if (!apiReq.ok) { return error({ statusCode: apiReq.status, message: 'An error occurred' }) }
@@ -84,8 +86,14 @@ export default {
       this.results = responseLines.split('\n').map(line => JSON.parse(line))
     }
   },
-  data: () => ({
-    results: []
-  })
+  data: () => {
+    return {
+      results: [],
+      url: ''
+    }
+  },
+  head () {
+    return { title: this.url }
+  }
 }
 </script>
