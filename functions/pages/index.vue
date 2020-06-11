@@ -1,11 +1,18 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-form @submit.prevent="submit">
-      <v-text-field v-model="url" type="url" :rules="[validate]" label="URL to search" />
+  <v-form ref="form" @submit.prevent="submit">
+    <v-layout
+      column
+      justify-center
+      align-center
+    >
+      <v-text-field
+        v-model="url"
+        autofocus
+        validate-on-blur
+        type="url"
+        :rules="[validate]"
+        label="URL to search"
+      />
       <v-btn
         ref="submitBtn"
         color="primary"
@@ -15,8 +22,8 @@
       >
         Continue
       </v-btn>
-    </v-form>
-  </v-layout>
+    </v-layout>
+  </v-form>
 </template>
 <script>
 export default {
@@ -30,9 +37,11 @@ export default {
   },
   methods: {
     submit () {
-      this.$router.push({
-        path: this.linkUrl
-      })
+      if (this.$refs.form.validate()) {
+        this.$router.push({
+          path: this.linkUrl
+        })
+      }
     },
     validate: (url) => {
       try {
