@@ -36,7 +36,7 @@ const analyseUrl = async (rawUrl) => {
   return results
 }
 
-app.get('/lookup/:url', async (req, res) => {
+app.get('/lookup/', async (req, res) => {
   const errors = []
   let page
   let hasFinished = false
@@ -59,7 +59,11 @@ app.get('/lookup/:url', async (req, res) => {
     return res.status(500).end('Internal server error')
   }
 
-  const originalUrl = req.params.url
+  const originalUrl = req.query.url
+  if (typeof originalUrl !== 'string' || originalUrl.length < 0 || originalUrl.length > 50000) {
+    return res.status(400).end('Invalid URL')
+  }
+
   try {
     // eslint-disable-next-line no-new
     new URL(originalUrl)
@@ -96,7 +100,7 @@ app.get('/lookup/:url', async (req, res) => {
 
   hasFinished = true
   const finalUrl = await page.url()
-  res.write(JSON.stringify({ type: 'analysis', analysis: await analyseUrl(finalUrl) }) + "\n")
+  res.write(JSON.stringify({ type: 'analysis', analysis: await analyseUrl(finalUrl) }) + '\n')
   if (page.url().startsWith('chrome-error://')) {
     res.send({ failed: true })
   } else {
