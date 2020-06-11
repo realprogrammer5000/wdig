@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card outlined>
     <v-img :alt="'screenshot of ' + pageUrl" :src="imageUrl" />
     <v-card-text>Screenshot of <a :href="pageUrl">{{ pageUrl }}</a></v-card-text>
   </v-card>

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="error">
+  <v-card class="error" outlined>
     <v-card-title>Warning</v-card-title>
     <v-card-text>
       <span v-if="analysis === 'rickroll'">The page is likely a rickroll.</span>
