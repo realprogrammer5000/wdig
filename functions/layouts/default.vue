@@ -45,7 +45,7 @@
       >
         <v-icon>mdi-application</v-icon>
       </v-btn>-->
-      <v-toolbar-title v-text="title" />
+      <nuxt-link to="/"><v-toolbar-title v-text="title" /></nuxt-link>
       <!--<v-spacer />
       <v-btn
         icon
@@ -84,7 +84,11 @@
     </v-footer>
   </v-app>
 </template>
-
+<style>
+#app .nuxt-link-active{
+  color: #FFFFFF;
+}
+</style>
 <script>
 export default {
   data () {
