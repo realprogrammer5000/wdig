@@ -13,6 +13,8 @@
     ]
   },
   "functions": {
-    "ignore": []
+    "ignore": [
+      "**/node_modules/**"
+    ]
   }
 }
