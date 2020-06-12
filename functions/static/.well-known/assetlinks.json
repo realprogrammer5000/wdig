@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "ml.wdig",
+    "sha256_cert_fingerprints":
+    ["2C:6E:C0:FC:77:10:14:1A:B5:70:A9:A7:2C:E7:8D:E4:3D:4A:61:29:81:DC:29:9B:ED:AC:2F:86:D1:2E:C8:33"]
+  }
+}]
