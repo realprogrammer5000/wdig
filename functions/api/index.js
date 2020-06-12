@@ -76,7 +76,7 @@ app.get('/lookup/', async (req, res) => {
 
   page.on('load', () => {
     const url = page.url()
-    if (originalUrl !== url) {
+    if ((new URL(originalUrl)).href !== (new URL(url)).href) {
     // if (!hasFinished) {
       res.write(JSON.stringify({ type: 'redirect', to: url }) + '\n')
       console.log('url', url)
