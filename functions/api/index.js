@@ -29,7 +29,7 @@ const analyseUrl = async (rawUrl) => {
   }
 
   try {
-    if (await lookup.checkSingle(rawUrl)) { results.push({ type: 'safebrowsing' }) }
+    if (await lookup.checkSingle(rawUrl)) { results.push('safebrowsing') }
   } catch (e) {
     console.error(e)
   }
