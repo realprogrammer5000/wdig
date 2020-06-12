@@ -1,0 +1,14 @@
+{
+  "appId": "ml.wdig",
+  "appName": "wdig",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {},
+  "linuxAndroidStudioPath": "/home/max/bin/android-studio"
+}

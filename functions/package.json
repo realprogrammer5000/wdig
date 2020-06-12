@@ -11,12 +11,16 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "deploy": "nuxt build && firebase deploy && curl -X POST \"https://api.cloudflare.com/client/v4/zones/1fa028876ca992f564f34302639490e1/purge_cache\" -H \"Authorization: Bearer $(head -c -1 token)\" -H \"Content-Type: application/json\"  --data '{\"purge_everything\":true}'"
+    "deploy": "nuxt build && firebase deploy && curl -X POST \"https://api.cloudflare.com/client/v4/zones/1fa028876ca992f564f34302639490e1/purge_cache\" -H \"Authorization: Bearer $(head -c -1 token)\" -H \"Content-Type: application/json\"  --data '{\"purge_everything\":true}'",
+    "androidbuild": "nuxt generate && cap copy android"
   },
   "engines": {
     "node": "10"
   },
   "dependencies": {
+    "@capacitor/android": "^2.2.0",
+    "@capacitor/cli": "^2.2.0",
+    "@capacitor/core": "^2.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase-admin": "^8.10.0",

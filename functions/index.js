@@ -33,6 +33,6 @@ nuxtApp.use(handleRequest)
 exports.nuxt = functions.https.onRequest(nuxtApp)
 
 // apiApp.get()
-exports.api = functions.https.runWith({
+exports.api = functions.runWith({
   memory: '512MB'
-}).onRequest(require('./api'))
+}).https.onRequest(require('./api'))
