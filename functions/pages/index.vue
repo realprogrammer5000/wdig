@@ -33,7 +33,7 @@ export default {
   }),
   computed: {
     linkUrl () {
-      return `/url/${encodeURIComponent(this.url)}`
+      return `/lookup?url=${encodeURIComponent(this.url)}`
     }
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>WDIG Lookup</h1>
-    <a :href="this.$route.params.id">{{ this.$route.params.id }}</a>
+    <a :href="this.$route.query.id">{{ this.$route.query.id }}</a>
     <div v-if="$fetchState.pending">
       <v-skeleton-loader class="card-placeholder" type="image" />
       <!--      <v-skeleton-loader type="text"></v-skeleton-loader>-->
@@ -66,12 +66,12 @@ export default {
     Screenshot
   },
   async fetch () {
-    const { context: { params, error, env } } = this.$nuxt
-    const decodedUrl = decodeURIComponent(params.id)
+    const { context: { query, error, env } } = this.$nuxt
+    const decodedUrl = decodeURIComponent(query.url)
     const url = new URL(decodedUrl)
     this.url = decodedUrl
     if (!url.href.startsWith('http://') && !url.href.startsWith('https://')) { throw new Error('Invalid protocol') }
-    const apiReq = await fetch(`${env.apiUrl}/lookup/?url=${encodeURIComponent(params.id)}`)
+    const apiReq = await fetch(`${env.apiUrl}/lookup/?url=${encodeURIComponent(query.url)}`)
     if (!apiReq.ok) { return error({ statusCode: apiReq.status, message: 'An error occurred' }) }
 
     if (process.client) {
@@ -94,6 +94,7 @@ export default {
   },
   head () {
     return { title: this.url }
-  }
+  },
+  watchQuery: ['url']
 }
 </script>
